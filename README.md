@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎮 Code Runner: Neon Debug Quest
 
 A fast-paced **coding-themed runner game** built with a modern frontend design, smooth animations, and a premium neon gaming UI.
@@ -158,3 +159,6 @@ Live Project: https://code-game-nu.vercel.app/
 ## ⭐ Support
 
 If you like this project, give it a ⭐ on GitHub!
+=======
+
+>>>>>>> a82e0daf593f958134f15133c57a6cd2b22eca72
