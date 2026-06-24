@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Runner: Neon Debug Quest</title>
+    <meta name="description" content="A fast, animated, premium coding-themed runner game with smooth UI, attractive effects, and responsive gameplay.">
+
+    <!-- Open Graph / LinkedIn / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Code Runner Game | Built by Kavin">
+    <meta property="og:description" content="A fast, animated, premium coding-themed runner game with smooth UI, attractive effects, and responsive gameplay.">
+    <meta property="og:image" content="https://code-runner-kappa.vercel.app/og-thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://code-runner-kappa.vercel.app/">
+    <meta property="og:site_name" content="Code Runner: Neon Debug Quest">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Code Runner Game | Built by Kavin">
+    <meta name="twitter:description" content="A fast, animated, premium coding-themed runner game with smooth UI, attractive effects, and responsive gameplay.">
+    <meta name="twitter:image" content="https://code-runner-kappa.vercel.app/og-thumbnail.png">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Canvas for game -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Landing / Hero Screen -->
+        <div id="landingScreen" class="screen active">
+            <div class="landing-content">
+                <img src="og-thumbnail.png" alt="Code Runner: Neon Debug Quest" class="landing-hero">
+                <h1 class="landing-title">Code Runner</h1>
+                <p class="landing-subtitle">Neon Debug Quest</p>
+                <p class="landing-tagline">Dodge bugs, dash past firewalls, and chase a new high score in this neon-coded runner.</p>
+                <button class="btn btn-primary btn-cta" id="playGameCtaBtn">
+                    <span class="btn-label">▶ PLAY GAME</span>
+                    <span class="btn-glow"></span>
+                </button>
+                <p class="landing-footnote">Free to play • No download • Works on desktop &amp; mobile</p>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="screen">
+            <div class="loading-content">
+                <div class="logo-glow">
+                    <div class="logo">
+                        <span class="code-bracket">&lt;</span>
+                        <span class="logo-text">CODE</span>
+                        <span class="code-bracket">/&gt;</span>
+                    </div>
+                </div>
+                <h1 class="loading-title">Code Runner</h1>
+                <p class="loading-subtitle">Neon Debug Quest</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="loading-text" id="loadingText">Initializing System...</p>
+            </div>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div id="menuScreen" class="screen">
+            <div class="menu-content">
+                <div class="menu-title-container">
+                    <h1 class="menu-title">Code Runner</h1>
+                    <p class="menu-subtitle">Neon Debug Quest</p>
+                </div>
+
+                <div class="menu-buttons">
+                    <button class="btn btn-primary" id="startBtn">
+                        <span class="btn-label">START GAME</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <button class="btn btn-secondary" id="modeSelectBtn">
+                        <span class="btn-label">SELECT MODE</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <button class="btn btn-secondary" id="howToPlayBtn">
+                        <span class="btn-label">HOW TO PLAY</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    <button class="btn btn-secondary" id="settingsBtn">
+                        <span class="btn-label">SETTINGS</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+
+                <div class="high-score-display">
+                    <div class="high-score-card">
+                        <p class="high-score-label">High Score</p>
+                        <p class="high-score-value" id="menuHighScore">0</p>
+                    </div>
+                </div>
+
+                <div class="menu-footer">
+                    <p class="footer-text">System Online • Ready for Debug</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Selection Screen -->
+        <div id="modeScreen" class="screen">
+            <div class="modal">
+                <h2>SELECT GAME MODE</h2>
+                <div class="mode-options">
+                    <div class="mode-card" id="endlessMode">
+                        <h3>ENDLESS MODE</h3>
+                        <p>Survive as long as possible in an infinite run.</p>
+                        <span class="mode-badge">∞</span>
+                    </div>
+                    <div class="mode-card" id="missionMode">
+                        <h3>MISSION MODE</h3>
+                        <p>Complete specific objectives to progress.</p>
+                        <span class="mode-badge">★</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="backFromModeBtn">
+                    <span class="btn-label">BACK</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- How to Play Screen -->
+        <div id="howToPlayScreen" class="screen">
+            <div class="modal">
+                <h2>HOW TO PLAY</h2>
+                <div class="controls-container">
+                    <div class="control-group">
+                        <h3>Desktop Controls</h3>
+                        <div class="control-item">
+                            <span class="control-key">SPACE / ↑</span>
+                            <span class="control-desc">Jump</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">SPACE 2x</span>
+                            <span class="control-desc">Double Jump</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">↓</span>
+                            <span class="control-desc">Slide</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">P</span>
+                            <span class="control-desc">Pause</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>Mobile Controls</h3>
+                        <div class="control-item">
+                            <span class="control-key">TAP</span>
+                            <span class="control-desc">Jump</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">TAP 2x</span>
+                            <span class="control-desc">Double Jump</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key">SWIPE ↓</span>
+                            <span class="control-desc">Slide</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>Objectives</h3>
+                        <div class="control-item">
+                            <span class="control-desc">Collect tech tokens for points</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-desc">Avoid bugs, errors, and viruses</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-desc">Use power-ups strategically</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-desc">Survive as difficulty increases</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="backFromHowBtn">
+                    <span class="btn-label">BACK</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settingsScreen" class="screen">
+            <div class="modal">
+                <h2>SETTINGS</h2>
+                <div class="settings-container">
+                    <div class="setting-item">
+                        <label>Sound</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label>Particles</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="particlesToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label>Difficulty</label>
+                        <div class="select-group">
+                            <select id="difficultySelect">
+                                <option value="easy">Easy</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label>Theme</label>
+                        <div class="theme-selector">
+                            <div class="theme-option active" data-theme="blue">
+                                <div class="theme-color" style="background: linear-gradient(135deg, #00d4ff 0%, #0084ff 100%);"></div>
+                                <span>Neon Blue</span>
+                            </div>
+                            <div class="theme-option" data-theme="purple">
+                                <div class="theme-color" style="background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);"></div>
+                                <span>Purple</span>
+                            </div>
+                            <div class="theme-option" data-theme="green">
+                                <div class="theme-color" style="background: linear-gradient(135deg, #00ff88 0%, #00ff00 100%);"></div>
+                                <span>Neon Green</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="backFromSettingsBtn">
+                    <span class="btn-label">BACK</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Screen HUD -->
+        <div id="gameHUD" class="hud-container">
+            <div class="hud-left">
+                <div class="hud-item">
+                    <span class="hud-label">SCORE</span>
+                    <span class="hud-value" id="scoreDisplay">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">LEVEL</span>
+                    <span class="hud-value" id="levelDisplay">1</span>
+                </div>
+            </div>
+
+            <div class="hud-center">
+                <div class="lives-display" id="livesDisplay">
+                    <span class="life-icon">❤</span>
+                    <span class="life-icon">❤</span>
+                    <span class="life-icon">❤</span>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <div class="hud-item">
+                    <span class="hud-label">DISTANCE</span>
+                    <span class="hud-value" id="distanceDisplay">0</span>
+                </div>
+                <div class="hud-item" id="powerUpIndicator" style="display: none;">
+                    <span class="hud-label" id="powerUpName">SHIELD</span>
+                    <div class="power-up-timer" id="powerUpTimer"></div>
+                </div>
+            </div>
+
+            <button class="btn-pause" id="pauseBtn">⏸</button>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pauseScreen" class="screen">
+            <div class="modal">
+                <h2>GAME PAUSED</h2>
+                <p class="pause-message">System Paused</p>
+                <div class="button-group">
+                    <button class="btn btn-primary" id="resumeBtn">
+                        <span class="btn-label">RESUME</span>
+                    </button>
+                    <button class="btn btn-secondary" id="restartFromPauseBtn">
+                        <span class="btn-label">RESTART</span>
+                    </button>
+                    <button class="btn btn-secondary" id="menuFromPauseBtn">
+                        <span class="btn-label">MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="screen">
+            <div class="game-over-content">
+                <h1 class="game-over-title">SYSTEM CRASHED</h1>
+                <p class="game-over-subtitle" id="gameOverSubtitle">Debug Complete</p>
+
+                <div class="stats-container">
+                    <div class="stat">
+                        <p class="stat-label">Final Score</p>
+                        <p class="stat-value" id="finalScore">0</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-label">Distance</p>
+                        <p class="stat-value" id="finalDistance">0</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-label">Tokens</p>
+                        <p class="stat-value" id="tokensCollected">0</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-label">High Score</p>
+                        <p class="stat-value high-score" id="finalHighScore">0</p>
+                    </div>
+                </div>
+
+                <div class="rank-container">
+                    <p class="rank-label">RANK</p>
+                    <p class="rank-title" id="rankTitle">Beginner Coder</p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="playAgainBtn">
+                        <span class="btn-label">PLAY AGAIN</span>
+                    </button>
+                    <button class="btn btn-secondary" id="shareBtn">
+                        <span class="btn-label">SHARE</span>
+                    </button>
+                    <button class="btn btn-secondary" id="menuBtn">
+                        <span class="btn-label">MENU</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level Up Banner -->
+        <div id="levelUpBanner" class="level-up-banner">
+            <p class="level-up-text" id="levelUpText">LEVEL UP!</p>
+        </div>
+
+        <!-- Floating Text for Points -->
+        <div id="floatingTextContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
